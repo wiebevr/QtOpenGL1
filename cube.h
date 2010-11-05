@@ -1,12 +1,6 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <QObject>
-#include <QGLBuffer>
-#include <QGLShader>
-#include <QMatrix4x4>
-#include <QVector4D>
-#include <QVector>
 #include <QTimer>
 #include "object.h"
 
@@ -28,7 +22,6 @@ class Cube
 
         void makeGeometry();
         void makeShaders();
-
 };
 
 #endif // CUBE_H

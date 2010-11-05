@@ -5,7 +5,9 @@
 TEMPLATE = app
 TARGET = QtOpenGL1 
 DEPENDPATH += .
-INCLUDEPATH += .
+INCLUDEPATH += .\
+               /usr/include/assimp \
+               /usr/include
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
@@ -16,12 +18,14 @@ QT += opengl core gui
 HEADERS += cube.h \ 
            widget.h \
            object.h \
+           mesh.h \
            camera.h
 
 SOURCES += main.cpp \
            widget.cpp \
            object.cpp \
            cube.cpp \
+           mesh.h \
            camera.cpp
 
 RESOURCES += \
