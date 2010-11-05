@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/shaders">
+        <file>shader.f.glsl</file>
+        <file>shader.v.glsl</file>
+    </qresource>
+</RCC>
