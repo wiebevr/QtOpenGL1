@@ -35,12 +35,6 @@ class Widget : public QGLWidget
         Cube *_cube;
         QGLShaderProgram *_shaderProgram;
         QTimer *_drawTimer;
-#if 0        
-        QMatrix4x4 _projectionMatrix;
-        QMatrix4x4 _modelViewMatrix;
-        QVector3D _positionVector;
-        QMatrix4x4 _rotationMatrix;
-#endif
         Camera *_camera; 
 
         QPointF _lastMousePosition;
