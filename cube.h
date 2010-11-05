@@ -8,44 +8,27 @@
 #include <QVector4D>
 #include <QVector>
 #include <QTimer>
+#include "object.h"
 
 class Cube
-    : public QObject
+    : public Object
 {
     Q_OBJECT
 
     public:
         Cube(QObject *parent = 0);
         ~Cube();
-        QGLShader *getVertexShader() const;
-        QGLShader *getFragmentShader() const;
-        const QVector<QVector3D> &getVertexData() const;
-        QGLBuffer getVertexBuffer() const;
-        QGLBuffer getElementBuffer() const;
-        QMatrix4x4 getWorldMatrix() const;
-        void setWorldMatrix(QMatrix4x4 worldMatrix);
         void makeResources();
 
-    protected:
-        void makeGeometry();
-        void makeShaders();
-    
-    protected slots:
+    private slots:
         void timeout();
-    
 
     private:
         QTimer *_timer;
 
-        QGLBuffer _vertexBuffer;
-        QGLBuffer _elementBuffer;
+        void makeGeometry();
+        void makeShaders();
 
-        QGLShader *_vertexShader;
-        QGLShader *_fragmentShader;
-
-        QMatrix4x4 _worldMatrix;
-
-        QVector<QVector3D> _vertexData;
 };
 
 #endif // CUBE_H

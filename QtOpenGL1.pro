@@ -15,10 +15,12 @@ QT += opengl core gui
 # Input
 HEADERS += cube.h \ 
            widget.h \
+           object.h \
            camera.h
 
 SOURCES += main.cpp \
            widget.cpp \
+           object.cpp \
            cube.cpp \
            camera.cpp
 

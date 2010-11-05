@@ -2,60 +2,22 @@
 #include <QDebug>
 
 Cube::Cube(QObject *parent)
-    : QObject(parent)
+    : Object(parent)
 {
     // Timer:
     _timer = new QTimer(this);
     _timer->start(10);
     connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
-    // Matrix:
-    _worldMatrix.setToIdentity();
-    //_worldMatrix.translate(1.0f, 1.0f, 0.0f);
 }
 
 Cube::~Cube()
 {
 }
 
-QGLShader *Cube::getVertexShader() const
-{
-    return _vertexShader;
-}
-
-QGLShader *Cube::getFragmentShader() const
-{
-    return _fragmentShader;
-}
-
-const QVector<QVector3D> &Cube::getVertexData() const
-{
-    return _vertexData;
-}
-
-QGLBuffer Cube::getVertexBuffer() const
-{
-    return _vertexBuffer;
-}
-
-QGLBuffer Cube::getElementBuffer() const
-{
-    return _elementBuffer;
-}
-
-QMatrix4x4 Cube::getWorldMatrix() const
-{
-    return _worldMatrix;
-}
-
-void Cube::setWorldMatrix(QMatrix4x4 worldMatrix)
-{
-    _worldMatrix = worldMatrix;
-}
-
 void Cube::timeout()
 {
-    //_worldMatrix.rotate(1.0f, 1.0f, 0.0f, 0.0f);
+    //_positionMatrix.rotate(1.0f, 1.0f, 0.0f, 0.0f);
 }
 
 void Cube::makeResources()
