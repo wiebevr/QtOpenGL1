@@ -2,12 +2,8 @@
 #define OBJECT_H
 
 #include <QObject>
-#include <QGLBuffer>
-#include <QGLShader>
 #include <QMatrix4x4>
-#include <QVector4D>
-#include <QVector>
-#include <QTimer>
+#include "camera.h"
 
 class Object
     : public QObject
@@ -17,21 +13,14 @@ class Object
     public:
         Object(QObject *parent = 0);
         virtual ~Object();
-        virtual QGLShader *getVertexShader() const;
-        virtual QGLShader *getFragmentShader() const;
-        virtual QGLBuffer getVertexBuffer() const;
-        virtual QGLBuffer getElementBuffer() const;
+
         virtual QMatrix4x4 getPositionMatrix() const;
         virtual void setPositionMatrix(QMatrix4x4 positionMatrix);
+
         virtual void makeResources() = 0;
+        virtual void draw(Camera *camera) = 0;
 
     protected:
-        QGLBuffer _vertexBuffer;
-        QGLBuffer _elementBuffer;
-
-        QGLShader *_vertexShader;
-        QGLShader *_fragmentShader;
-
         QMatrix4x4 _positionMatrix;
 };
 

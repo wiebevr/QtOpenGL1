@@ -3,12 +3,15 @@
 
 #include "cube.h"
 #include "camera.h"
+#include "mesh.h"
+#include "widget_plane.h"
 
 #include <QGLWidget>
 #include <QGLFormat>
 #include <QGLShaderProgram>
 #include <QMatrix4x4>
 #include <QMouseEvent>
+#include <QGraphicsView>
 
 class Widget : public QGLWidget
 {
@@ -33,7 +36,8 @@ class Widget : public QGLWidget
 
     private:
         Cube *_cube;
-        QGLShaderProgram *_shaderProgram;
+        Mesh *_mesh;
+        WidgetPlane *_widgetPlane;
         QTimer *_drawTimer;
         Camera *_camera; 
 

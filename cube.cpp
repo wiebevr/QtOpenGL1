@@ -26,28 +26,64 @@ void Cube::makeResources()
     makeShaders();
 }
 
+void Cube::draw(Camera *camera)
+{
+    _shaderProgram->bind();
+
+    _shaderProgram->setUniformValue(
+            "projectionMatrix", 
+            camera->getProjectionMatrix());
+    _shaderProgram->setUniformValue(
+            "modelViewMatrix", 
+            camera->getModelViewMatrix());
+
+    _vertexBuffer.bind();
+    _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);
+    _shaderProgram->enableAttributeArray("vertexPosition");
+
+    _elementBuffer.bind();
+    glDrawElements(
+            GL_TRIANGLE_STRIP,
+            4,
+            GL_UNSIGNED_SHORT,
+            (void *)0);
+
+    _shaderProgram->disableAttributeArray("vertexPosition");
+
+    _shaderProgram->release();
+
+    _vertexBuffer.release();
+    _elementBuffer.release();
+}
+
 void Cube::makeShaders()
 {
-    _vertexShader = new QGLShader(QGLShader::Vertex, this);
-    _fragmentShader = new QGLShader(QGLShader::Fragment, this);
-    
-    _vertexShader->compileSourceFile(":/shaders/shader.v.glsl");
-    _fragmentShader->compileSourceFile(":/shaders/shader.f.glsl");
+    _shaderProgram = new QGLShaderProgram(this); 
 
-    if (!_vertexShader->isCompiled())
+    QGLShader *vertexShader = new QGLShader(QGLShader::Vertex, this);
+    QGLShader *fragmentShader = new QGLShader(QGLShader::Fragment, this);
+    
+    vertexShader->compileSourceFile(":/shaders/shader.v.glsl");
+    fragmentShader->compileSourceFile(":/shaders/shader.f.glsl");
+
+    if (!vertexShader->isCompiled())
     {
         qDebug() 
             << "Could not compile vertex shader:\n" 
-            << _vertexShader->log();
+            << vertexShader->log();
     }
 
-    if (!_fragmentShader->isCompiled())
+    if (!fragmentShader->isCompiled())
     {
         qDebug() 
             << "Could not compile fragment shader:\n" 
-            <<  _fragmentShader->log();
+            <<  fragmentShader->log();
     }
 
+    _shaderProgram->addShader(fragmentShader);
+    _shaderProgram->addShader(vertexShader);
+
+    _shaderProgram->link();
 }
 
 void Cube::makeGeometry()
@@ -77,5 +113,8 @@ void Cube::makeGeometry()
 
     _vertexBuffer.allocate((void *)vertexData, sizeof(vertexData));
     _elementBuffer.allocate((void *)elementData, sizeof(elementData));
+
+    _vertexBuffer.release();
+    _elementBuffer.release();
 
 }

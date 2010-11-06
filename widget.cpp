@@ -5,7 +5,9 @@ Widget::Widget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
     _cube = new Cube(this);
-    _shaderProgram = NULL;
+    _mesh = new Mesh(this);    
+    _widgetPlane = new WidgetPlane(this);
+
     _camera = new Camera(45.0f, (double)width() / (double)height(),
             1.0f, 15.0f, this);
     _camera->setRotationPoint(QVector3D(0.0f, 0.0f, 5.0f));
@@ -15,6 +17,7 @@ Widget::Widget(QWidget *parent)
     connect(_drawTimer, SIGNAL(timeout()), this, SLOT(updateGL()));
 
     isDragging = false;
+
 }
 
 Widget::~Widget()
@@ -24,18 +27,13 @@ Widget::~Widget()
 void Widget::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_VERTEX_ARRAY);
     //glEnable(GL_CULL_FACE);
-    //glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
     _cube->makeResources();
-    _shaderProgram = new QGLShaderProgram(this); 
-
-    _shaderProgram->addShader(_cube->getFragmentShader());
-    _shaderProgram->addShader(_cube->getVertexShader());
-
-    _shaderProgram->link();
-
-    _shaderProgram->bind();
+    _mesh->makeResources();
+    _widgetPlane->makeResources();
     
 }
 
@@ -43,31 +41,16 @@ void Widget::paintGL()
 {
     qglClearColor(Qt::gray);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    
-    _shaderProgram->setUniformValue(
-            "projectionMatrix", 
-            _camera->getProjectionMatrix());
-    _shaderProgram->setUniformValue(
-            "modelViewMatrix", 
-            _camera->getModelViewMatrix());
-
-    _cube->getVertexBuffer().bind();
-    _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);
-    _shaderProgram->enableAttributeArray("vertexPosition");
-
-    _cube->getElementBuffer().bind();
-    glDrawElements(
-            GL_TRIANGLE_STRIP,
-            4,
-            GL_UNSIGNED_SHORT,
-            (void *)0);
-
-    _shaderProgram->disableAttributeArray("vertexPosition");
+   
+    //_mesh->draw(_camera);
+    _widgetPlane->draw(_camera);
+    //_cube->draw(_camera);
 }
 
 void Widget::resizeGL(int width, int height)
 {
+    qDebug() << "Width: " << width;
+    qDebug() << "Height: " << height;
     _camera->resize(width, height);
     glViewport(0, 0, width, height);
 }
