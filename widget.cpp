@@ -7,6 +7,14 @@ Widget::Widget(QWidget *parent)
     _cube = new Cube(this);
     _mesh = new Mesh(this);    
     _widgetPlane = new WidgetPlane(this);
+    _displayPlane = new DisplayPlane(this);
+    
+    _objectGroup = new ObjectGroup(this);
+    
+    for(int i = 0; i < 6; ++i)
+    {
+        _objectGroup->addObject(new DisplayPlane(this));
+    }
 
     _camera = new Camera(45.0f, (double)width() / (double)height(),
             1.0f, 15.0f, this);
@@ -34,6 +42,8 @@ void Widget::initializeGL()
     _cube->makeResources();
     _mesh->makeResources();
     _widgetPlane->makeResources();
+    _displayPlane->makeResources();
+    _objectGroup->makeResources();
     
 }
 
@@ -41,9 +51,12 @@ void Widget::paintGL()
 {
     qglClearColor(Qt::gray);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    _objectGroup->draw(_camera);
    
-    _mesh->draw(_camera);
-    _widgetPlane->draw(_camera);
+    //_mesh->draw(_camera);
+    //_widgetPlane->draw(_camera);
+    //_displayPlane->draw(_camera);
     //_cube->draw(_camera);
 }
 

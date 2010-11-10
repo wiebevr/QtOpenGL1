@@ -10,8 +10,8 @@ class Object
     : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QVector3D _position READ getPosition WIRTE setPosition) 
-    Q_PROPERTY(double _yRotation READ getYRotation WIRTE setYRotation) 
+    Q_PROPERTY(QVector3D _position READ getPosition WRITE setPosition) 
+    Q_PROPERTY(double _yRotation READ getYRotation WRITE setYRotation) 
 
     public:
         Object(QObject *parent = 0);
@@ -29,6 +29,10 @@ class Object
 
     protected:
         QMatrix4x4 _positionMatrix;
+
+    private:
+        QVector3D _position;
+        double _yRotation;
 };
 
 #endif // OBJECT_H

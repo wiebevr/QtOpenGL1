@@ -8,7 +8,7 @@ TARGET = QtOpenGL1
 DEPENDPATH += .
 INCLUDEPATH += .\
                /usr/include/assimp
-LIBS += -lassimp
+LIBS += -lassimp -lm
 
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
@@ -23,7 +23,8 @@ HEADERS += cube.h \
            mesh.h \
            camera.h \
            widget_plane.h \
-           display_plane.h
+           display_plane.h \
+           object_group.h
 
 SOURCES += main.cpp \
            widget.cpp \
@@ -32,7 +33,8 @@ SOURCES += main.cpp \
            mesh.cpp \
            camera.cpp \
            widget_plane.cpp \
-           display_plane.cpp
+           display_plane.cpp \
+           object_group.cpp
 
 RESOURCES += \
     resources.qrc

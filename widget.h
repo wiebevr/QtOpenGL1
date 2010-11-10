@@ -5,6 +5,8 @@
 #include "camera.h"
 #include "mesh.h"
 #include "widget_plane.h"
+#include "display_plane.h"
+#include "object_group.h"
 
 #include <QGLWidget>
 #include <QGLFormat>
@@ -38,6 +40,9 @@ class Widget : public QGLWidget
         Cube *_cube;
         Mesh *_mesh;
         WidgetPlane *_widgetPlane;
+        DisplayPlane *_displayPlane;
+        ObjectGroup *_objectGroup;
+
         QTimer *_drawTimer;
         Camera *_camera; 
 
