@@ -22,7 +22,8 @@ HEADERS += cube.h \
            object.h \
            mesh.h \
            camera.h \
-           widget_plane.h
+           widget_plane.h \
+           display_plane.h
 
 SOURCES += main.cpp \
            widget.cpp \
@@ -30,7 +31,8 @@ SOURCES += main.cpp \
            cube.cpp \
            mesh.cpp \
            camera.cpp \
-           widget_plane.cpp
+           widget_plane.cpp \
+           display_plane.cpp
 
 RESOURCES += \
     resources.qrc

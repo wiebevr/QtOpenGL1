@@ -4,6 +4,8 @@
 Mesh::Mesh(QObject *parent)
     : Object(parent)
 {
+    _positionMatrix.setToIdentity();
+    _positionMatrix.translate(0.0f, 0.0f, -1.5f);
 }
 
 Mesh::~Mesh()
@@ -25,12 +27,12 @@ void Mesh::draw(Camera *camera)
             camera->getProjectionMatrix());
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
-            camera->getModelViewMatrix());
+            camera->getModelViewMatrix() * _positionMatrix);
 
     _shaderProgram->enableAttributeArray("vertexPosition");
     _shaderProgram->setAttributeArray("vertexPosition", _vertices.constData());
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertices.size());
+    glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
     
     _shaderProgram->disableAttributeArray("vertexPosition");
     _shaderProgram->release();
@@ -71,7 +73,7 @@ void Mesh::makeGeometry()
     const aiScene *scene = importer.ReadFile("media/simple_cube.obj",
             aiProcess_CalcTangentSpace |
             aiProcess_Triangulate |
-            aiProcess_JoinIdenticalVertices |
+            //aiProcess_JoinIdenticalVertices |
             aiProcess_SortByPType);
     const aiMesh *mesh;
     int numberOfVertices;

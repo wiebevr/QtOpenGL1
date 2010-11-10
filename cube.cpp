@@ -9,6 +9,9 @@ Cube::Cube(QObject *parent)
     _timer->start(10);
     connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
+    _positionMatrix.setToIdentity();
+    _positionMatrix.translate(0.0f, 0.0f, 1.0f);
+
 }
 
 Cube::~Cube()
@@ -35,7 +38,7 @@ void Cube::draw(Camera *camera)
             camera->getProjectionMatrix());
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
-            camera->getModelViewMatrix());
+            camera->getModelViewMatrix() * _positionMatrix);
 
     _vertexBuffer.bind();
     _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);

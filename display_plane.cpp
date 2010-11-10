@@ -1,44 +1,35 @@
-#include "widget_plane.h"
+#include "display_plane.h"
 #include <QDebug>
-#include <QGLFramebufferObjectFormat>
-#include <QLineEdit>
-#include <QGLContext>
-#include <QGLFormat>
 
-WidgetPlane::WidgetPlane(QObject *parent)
+DisplayPlane::DisplayPlane(QObject *parent)
     : Object(parent)
 {
     // Timer:
     _timer = new QTimer(this);
-    connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    _widget = new QLineEdit(QString("Dit is een test"));
     _timer->start(10);
-    _widget->resize(100, 100);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
     _positionMatrix.setToIdentity();
-    _positionMatrix.translate(0.0f, 0.0f, 2.5f);
+    _positionMatrix.translate(0.0f, 0.0f, 1.0f);
+
 }
 
-WidgetPlane::~WidgetPlane()
+DisplayPlane::~DisplayPlane()
 {
 }
 
-void WidgetPlane::timeout()
+void DisplayPlane::timeout()
 {
+    //_positionMatrix.rotate(1.0f, 1.0f, 0.0f, 0.0f);
 }
 
-void WidgetPlane::makeResources()
+void DisplayPlane::makeResources()
 {
-    QGLFramebufferObjectFormat framebufferFormat;
-    _framebufferObject = new QGLFramebufferObject(_widget->size(), 
-            framebufferFormat);
-
     makeGeometry();
     makeShaders();
-    //_widget->render(_framebufferObject); 
 }
 
-void WidgetPlane::draw(Camera *camera)
+void DisplayPlane::draw(Camera *camera)
 {
     _shaderProgram->bind();
 
@@ -48,10 +39,6 @@ void WidgetPlane::draw(Camera *camera)
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
             camera->getModelViewMatrix() * _positionMatrix);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _framebufferObject->handle());
-    _shaderProgram->setUniformValue("texture", 0);
 
     _vertexBuffer.bind();
     _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);
@@ -70,18 +57,17 @@ void WidgetPlane::draw(Camera *camera)
 
     _vertexBuffer.release();
     _elementBuffer.release();
-    //_widget->render(_framebufferObject); 
 }
 
-void WidgetPlane::makeShaders()
+void DisplayPlane::makeShaders()
 {
     _shaderProgram = new QGLShaderProgram(this); 
 
     QGLShader *vertexShader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fragmentShader = new QGLShader(QGLShader::Fragment, this);
     
-    vertexShader->compileSourceFile(":/shaders/widget_plane.v.glsl");
-    fragmentShader->compileSourceFile(":/shaders/widget_plane.f.glsl");
+    vertexShader->compileSourceFile(":/shaders/shader.v.glsl");
+    fragmentShader->compileSourceFile(":/shaders/shader.f.glsl");
 
     if (!vertexShader->isCompiled())
     {
@@ -103,7 +89,7 @@ void WidgetPlane::makeShaders()
     _shaderProgram->link();
 }
 
-void WidgetPlane::makeGeometry()
+void DisplayPlane::makeGeometry()
 {
     const GLfloat vertexData[] = {
         -1.0f, -1.0f, 0.0f, 1.0f,

@@ -2,7 +2,7 @@
 #include <QMatrix4x4>
 
 Widget::Widget(QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+    : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
 {
     _cube = new Cube(this);
     _mesh = new Mesh(this);    
@@ -42,7 +42,7 @@ void Widget::paintGL()
     qglClearColor(Qt::gray);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    
-    //_mesh->draw(_camera);
+    _mesh->draw(_camera);
     _widgetPlane->draw(_camera);
     //_cube->draw(_camera);
 }
@@ -70,9 +70,11 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
             _camera->rotate(
                     (position.x() - _lastMousePosition.x()) * 100.0f,
                     QVector3D(0.0f, 1.0f, 0.0f));
+#if 0
             _camera->rotate(
                     (position.y() - _lastMousePosition.y()) * 100.0f,
                     QVector3D(1.0f, 0.0f, 0.0f));
+#endif
         }
         _lastMousePosition = position;
         event->accept();
