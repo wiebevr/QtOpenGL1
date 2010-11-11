@@ -38,7 +38,7 @@ void WidgetPlane::makeResources()
     //_widget->render(_framebufferObject); 
 }
 
-void WidgetPlane::draw(Camera *camera)
+void WidgetPlane::draw(Camera *camera, QMatrix4x4)
 {
     _shaderProgram->bind();
 

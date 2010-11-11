@@ -7,6 +7,7 @@
 #include <QGLShaderProgram>
 #include <QVector>
 #include <QVector3D>
+#include <QMatrix4x4>
 
 #include "object.h"
 
@@ -19,7 +20,7 @@ class Mesh
         Mesh(QObject *parent = 0);
         ~Mesh();
         void makeResources();
-        void draw(Camera *camera);
+        void draw(Camera *camera, QMatrix4x4 position = QMatrix4x4());
 
     private:
         void makeGeometry();

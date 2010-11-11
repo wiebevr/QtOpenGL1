@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QVector3D>
 #include <QPropertyAnimation>
+#include <QMatrix4x4>
 #include <math.h>
 
 class ObjectGroup
@@ -18,19 +19,27 @@ class ObjectGroup
         ~ObjectGroup();
         void addObject(Object *object);
         bool removeObject(Object *object);
-        void goToObject(Object *object);
         void setFormation(int formation);
-        void draw(Camera *camera);
+        void draw(Camera *camera, QMatrix4x4 position = QMatrix4x4());
         void makeResources();
-    enum
-    {
-        CIRCLE
-    };
+
+        void goToObject(Object *object);
+        void goToObject(int object);
+        void goToNearest();
+        void goLeft();
+        void goRight();
+
+        enum
+        {
+            CIRCLE,
+            GRID
+        };
 
     private:
         QVector<Object *> _objects;
         double _rotation;
-        QPropertyAnimation *_yRotationAnimation;
+        int _currentObject;
+        QPropertyAnimation *_rotationAnimation;
 };
 
 #endif //OBJECT_GROUP_H

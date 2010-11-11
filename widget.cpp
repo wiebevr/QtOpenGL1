@@ -1,6 +1,8 @@
 #include "widget.h"
 #include <QMatrix4x4>
 
+#define NUMBER_OF_OBJECTS 5
+
 Widget::Widget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
 {
@@ -11,7 +13,7 @@ Widget::Widget(QWidget *parent)
     
     _objectGroup = new ObjectGroup(this);
     
-    for(int i = 0; i < 6; ++i)
+    for(int i = 0; i < NUMBER_OF_OBJECTS; ++i)
     {
         _objectGroup->addObject(new DisplayPlane(this));
     }
@@ -80,14 +82,9 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
             QPointF position(
                     event->posF().x() / this->size().width(),
                     event->posF().y() / this->size().height());
-            _camera->rotate(
-                    (position.x() - _lastMousePosition.x()) * 100.0f,
-                    QVector3D(0.0f, 1.0f, 0.0f));
-#if 0
-            _camera->rotate(
-                    (position.y() - _lastMousePosition.y()) * 100.0f,
-                    QVector3D(1.0f, 0.0f, 0.0f));
-#endif
+            _objectGroup->setRotation(_objectGroup->getRotation() + 
+                    QVector3D((position.y() - _lastMousePosition.y()) * 100.0f,
+                        (position.x() - _lastMousePosition.x()) * 100.0f, 0.0f));
         }
         _lastMousePosition = position;
         event->accept();
@@ -100,7 +97,21 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
 
 void Widget::keyPressEvent(QKeyEvent *event)
 {
-    event->ignore();
+    switch(event->key())
+    {
+        case Qt::Key_Right:
+            _objectGroup->goRight();
+            event->accept();
+            break;
+
+        case Qt::Key_Left:
+            _objectGroup->goLeft();
+            event->accept();
+            break;
+
+        default:
+            event->ignore();
+    }
 }
 
 void Widget::keyReleaseEvent(QKeyEvent *event)
@@ -126,5 +137,6 @@ void Widget::mouseReleaseEvent(QMouseEvent *event)
     if ((event->buttons() & Qt::LeftButton) == 0)
     {
         isDragging = false;
+        _objectGroup->goToNearest();
     }
 }

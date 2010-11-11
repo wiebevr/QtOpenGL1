@@ -29,7 +29,7 @@ void Cube::makeResources()
     makeShaders();
 }
 
-void Cube::draw(Camera *camera)
+void Cube::draw(Camera *camera, QMatrix4x4)
 {
     _shaderProgram->bind();
 

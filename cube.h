@@ -5,6 +5,7 @@
 #include <QGLShader>
 #include <QTimer>
 #include <QGLShaderProgram>
+#include <QMatrix4x4>
 #include "object.h"
 
 class Cube
@@ -16,7 +17,7 @@ class Cube
         Cube(QObject *parent = 0);
         ~Cube();
         void makeResources();
-        void draw(Camera *shaderProgram);
+        void draw(Camera *camera, QMatrix4x4 position = QMatrix4x4());
 
     private slots:
         void timeout();

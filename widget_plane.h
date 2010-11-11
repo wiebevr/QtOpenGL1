@@ -7,6 +7,7 @@
 #include <QGLShaderProgram>
 #include <QWidget>
 #include <QGLFramebufferObject>
+#include <QMatrix4x4>
 
 #include "object.h"
 
@@ -19,7 +20,7 @@ class WidgetPlane
         WidgetPlane(QObject *parent = 0);
         ~WidgetPlane();
         void makeResources();
-        void draw(Camera *shaderProgram);
+        void draw(Camera *camera, QMatrix4x4 position = QMatrix4x4());
 
     private slots:
         void timeout();

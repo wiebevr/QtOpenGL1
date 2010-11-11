@@ -18,7 +18,7 @@ void Mesh::makeResources()
     makeShaders();
 }
 
-void Mesh::draw(Camera *camera)
+void Mesh::draw(Camera *camera, QMatrix4x4)
 {
     _shaderProgram->bind();
     

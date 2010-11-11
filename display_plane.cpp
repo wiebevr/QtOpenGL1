@@ -29,7 +29,7 @@ void DisplayPlane::makeResources()
     makeShaders();
 }
 
-void DisplayPlane::draw(Camera *camera)
+void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
 {
     _shaderProgram->bind();
 
@@ -38,7 +38,7 @@ void DisplayPlane::draw(Camera *camera)
             camera->getProjectionMatrix());
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
-            camera->getModelViewMatrix() * _positionMatrix);
+            camera->getModelViewMatrix() * position * _positionMatrix);
 
     _vertexBuffer.bind();
     _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);

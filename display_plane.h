@@ -5,6 +5,7 @@
 #include <QGLShader>
 #include <QTimer>
 #include <QGLShaderProgram>
+#include <QMatrix4x4>
 #include "object.h"
 
 class DisplayPlane
@@ -16,7 +17,7 @@ class DisplayPlane
         DisplayPlane(QObject *parent = 0);
         ~DisplayPlane();
         void makeResources();
-        void draw(Camera *shaderProgram);
+        void draw(Camera *shaderProgram, QMatrix4x4 position = QMatrix4x4());
 
     private slots:
         void timeout();
