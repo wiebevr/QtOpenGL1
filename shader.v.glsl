@@ -5,6 +5,7 @@ uniform mat4 modelViewMatrix;
 
 attribute vec4 vertexPosition;
 attribute vec4 normal;
+attribute vec2 texcoord;
 attribute float shininess;
 attribute vec4 specular;
 
@@ -15,12 +16,11 @@ varying vec4 fragmentSpecular;
 
 void main()
 {
-    vec4 eyePosition = modelViewMatrix * vertexPosition;
+    vec4 eyePosition = modelViewMatrix * vec4(vertexPosition.xyz, 1.0);
     gl_Position = projectionMatrix * eyePosition;
-    //gl_Position = projectionMatrix * modelViewMatrix * vertexPosition;
     
     fragmentPosition = eyePosition.xyz;
-    fragmentNormal = (modelViewMatrix * normal).xyz;
+    fragmentNormal = (modelViewMatrix * vec4(normal.xyz, 0.0)).xyz;
     fragmentShininess = shininess;
     fragmentSpecular = specular;
 }

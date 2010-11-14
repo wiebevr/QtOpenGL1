@@ -4,6 +4,15 @@
 Mesh::Mesh(QObject *parent)
     : Object(parent)
 {
+    _meshFilename = QString("media/monkey.obj");
+    _positionMatrix.setToIdentity();
+    _positionMatrix.translate(0.0f, 0.0f, -1.5f);
+}
+
+Mesh::Mesh(QString meshFilename, QObject *parent)
+    : Object(parent)
+{
+    _meshFilename = meshFilename;
     _positionMatrix.setToIdentity();
     _positionMatrix.translate(0.0f, 0.0f, -1.5f);
 }
@@ -18,23 +27,37 @@ void Mesh::makeResources()
     makeShaders();
 }
 
-void Mesh::draw(Camera *camera, QMatrix4x4)
+void Mesh::draw(Camera *camera, QMatrix4x4 position)
 {
     _shaderProgram->bind();
-    
+
     _shaderProgram->setUniformValue(
             "projectionMatrix", 
             camera->getProjectionMatrix());
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
-            camera->getModelViewMatrix() * _positionMatrix);
+            camera->getModelViewMatrix() * position * _positionMatrix);
+
+    _shaderProgram->setAttributeArray("vertexPosition", 
+            _vertexData.constData());
+    _shaderProgram->setAttributeArray("normal", 
+            _normalData.constData());
+    _shaderProgram->setAttributeArray("shininess", 
+            _shininessData.constData(), 1);
+    _shaderProgram->setAttributeArray("specular", 
+            _specularData.constData(), 1);
 
     _shaderProgram->enableAttributeArray("vertexPosition");
-    _shaderProgram->setAttributeArray("vertexPosition", _vertices.constData());
+    _shaderProgram->enableAttributeArray("normal");
+    _shaderProgram->enableAttributeArray("shininess");
+    _shaderProgram->enableAttributeArray("specular");
 
-    glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
-    
+    glDrawArrays(GL_TRIANGLES, 0, _vertexData.size());
+
     _shaderProgram->disableAttributeArray("vertexPosition");
+    _shaderProgram->disableAttributeArray("normal");
+    _shaderProgram->disableAttributeArray("shininess");
+    _shaderProgram->disableAttributeArray("specular");
     _shaderProgram->release();
 }
 
@@ -44,7 +67,7 @@ void Mesh::makeShaders()
 
     QGLShader *vertexShader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fragmentShader = new QGLShader(QGLShader::Fragment, this);
-    
+
     vertexShader->compileSourceFile(":/shaders/shader.v.glsl");
     fragmentShader->compileSourceFile(":/shaders/shader.f.glsl");
 
@@ -65,12 +88,13 @@ void Mesh::makeShaders()
     _shaderProgram->addShader(vertexShader);
 
     _shaderProgram->link();
+
 }
 
 void Mesh::makeGeometry()
 {
     Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile("media/simple_cube.obj",
+    const aiScene *scene = importer.ReadFile(_meshFilename.toStdString(),
             aiProcess_CalcTangentSpace |
             aiProcess_Triangulate |
             //aiProcess_JoinIdenticalVertices |
@@ -78,6 +102,7 @@ void Mesh::makeGeometry()
     const aiMesh *mesh;
     int numberOfVertices;
     aiVector3D *vertices;
+    aiVector3D *normals;
 
     if ( !scene )
     {
@@ -97,13 +122,18 @@ void Mesh::makeGeometry()
     mesh = *(scene->mMeshes);
     numberOfVertices = mesh->mNumVertices;
     vertices = mesh->mVertices;
+    normals = mesh->mNormals;
 
     for ( int i = 0; i < numberOfVertices; ++i )
     {
-        _vertices.append(
-                QVector3D(vertices[i].x, vertices[i].y, vertices[i].z));
+        _vertexData.append(
+                QVector4D(vertices[i].x, vertices[i].y, vertices[i].z, 1.0f));
+        _normalData.append(
+                QVector4D(normals[i].x, normals[i].y, normals[i].z, 0.0f));
+        _shininessData.append(1.0f);
+        _specularData.append(1.0f);
     }
-    qDebug() << _vertices;
+    qDebug() << _vertexData;
 
 #if 0
     _vertexBuffer = QGLBuffer(QGLBuffer::VertexBuffer);

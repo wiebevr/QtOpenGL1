@@ -6,6 +6,9 @@
 #include <QTimer>
 #include <QGLShaderProgram>
 #include <QMatrix4x4>
+#include <QVector3D>
+#include <QVector4D>
+#include <QVector>
 #include "object.h"
 
 class DisplayPlane
@@ -28,6 +31,11 @@ class DisplayPlane
 
         QGLBuffer _vertexBuffer;
         QGLBuffer _elementBuffer;
+        
+        QVector<QVector4D> _vertexData;
+        QVector<QVector4D> _normalData;
+        QVector<GLfloat> _shininessData;
+        QVector<GLfloat> _specularData;
 
         void makeGeometry();
         void makeShaders();

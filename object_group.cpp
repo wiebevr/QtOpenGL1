@@ -109,7 +109,7 @@ void ObjectGroup::setFormation(int formation)
         default:
             for (int i = 0; i < _objects.size(); ++i)
             {
-                _objects[i]->setPosition(QVector3D(0.0f, 0.0f, 1.0f) * 2.5);
+                _objects[i]->setPosition(QVector3D(0.0f, 0.0f, 5.0f));
                 _objects[i]->setYRotation((360.0 / _objects.size()) * i);
             }
             break;

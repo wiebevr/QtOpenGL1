@@ -10,7 +10,6 @@ DisplayPlane::DisplayPlane(QObject *parent)
     connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
     _positionMatrix.setToIdentity();
-    _positionMatrix.translate(0.0f, 0.0f, 1.0f);
 
 }
 
@@ -40,8 +39,34 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
             "modelViewMatrix", 
             camera->getModelViewMatrix() * position * _positionMatrix);
 
+    _shaderProgram->setAttributeArray("vertexPosition", 
+            _vertexData.constData());
+    _shaderProgram->setAttributeArray("normal", 
+            _normalData.constData());
+    _shaderProgram->setAttributeArray("shininess", 
+            _shininessData.constData(), 1);
+    _shaderProgram->setAttributeArray("specular", 
+            _specularData.constData(), 1);
+
+    _shaderProgram->enableAttributeArray("vertexPosition");
+    _shaderProgram->enableAttributeArray("normal");
+    _shaderProgram->enableAttributeArray("shininess");
+    _shaderProgram->enableAttributeArray("specular");
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertexData.size());
+
+    _shaderProgram->disableAttributeArray("vertexPosition");
+    _shaderProgram->disableAttributeArray("normal");
+    _shaderProgram->disableAttributeArray("shininess");
+    _shaderProgram->disableAttributeArray("specular");
+
+
+#if 0
     _vertexBuffer.bind();
+    _shaderProgram->setAttributeValue("normal", QVector4D(0.0f, 0.0f, -1.0f, 1.0f));
+    //_shaderProgram->setAttributeValue("shininess", );
     _shaderProgram->setAttributeBuffer("vertexPosition", GL_FLOAT, 0, 4);
+    _shaderProgram->enableAttributeArray("normal");
     _shaderProgram->enableAttributeArray("vertexPosition");
 
     _elementBuffer.bind();
@@ -57,6 +82,8 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
 
     _vertexBuffer.release();
     _elementBuffer.release();
+#endif
+    _shaderProgram->release();
 }
 
 void DisplayPlane::makeShaders()
@@ -91,11 +118,13 @@ void DisplayPlane::makeShaders()
 
 void DisplayPlane::makeGeometry()
 {
+#if 0
     const GLfloat vertexData[] = {
         -1.0f, -1.0f, 0.0f, 1.0f,
          1.0f, -1.0f, 0.0f, 1.0f,
         -1.0f,  1.0f, 0.0f, 1.0f,
-         1.0f,  1.0f, 0.0f, 1.0f
+         1.0f,  1.0f, 0.0f, 1.0f,
+         //
     };
 
     const GLushort elementData[] = {
@@ -119,5 +148,24 @@ void DisplayPlane::makeGeometry()
 
     _vertexBuffer.release();
     _elementBuffer.release();
+#endif
+    _vertexData.append(QVector4D(-1.0f, -1.0f, 0.0f, 1.0f));
+    _vertexData.append(QVector4D( 1.0f, -1.0f, 0.0f, 1.0f));
+    _vertexData.append(QVector4D(-1.0f,  1.0f, 0.0f, 1.0f));
+    _vertexData.append(QVector4D( 1.0f,  1.0f, 0.0f, 1.0f));
 
+    _normalData.append(QVector4D(0.0f, 0.0f, 1.0f, 0.0f));
+    _normalData.append(QVector4D(0.0f, 0.0f, 1.0f, 0.0f));
+    _normalData.append(QVector4D(0.0f, 0.0f, 1.0f, 0.0f));
+    _normalData.append(QVector4D(0.0f, 0.0f, 1.0f, 0.0f));
+
+    _shininessData.append(0.0f);
+    _shininessData.append(0.0f);
+    _shininessData.append(0.0f);
+    _shininessData.append(0.0f);
+
+    _specularData.append(0.0f);
+    _specularData.append(0.0f);
+    _specularData.append(0.0f);
+    _specularData.append(0.0f);
 }

@@ -1,5 +1,6 @@
 #include "widget.h"
 #include <QMatrix4x4>
+#include <QString>
 
 #define NUMBER_OF_OBJECTS 5
 
@@ -17,10 +18,12 @@ Widget::Widget(QWidget *parent)
     {
         _objectGroup->addObject(new DisplayPlane(this));
     }
+    _objectGroup->addObject(new Mesh(this));
+    _objectGroup->addObject(new Mesh(QString("media/smooth_monkey.obj"), this));
 
-    _camera = new Camera(45.0f, (double)width() / (double)height(),
-            1.0f, 15.0f, this);
-    _camera->setRotationPoint(QVector3D(0.0f, 0.0f, 5.0f));
+    _camera = new Camera(60.0f, (double)width() / (double)height(),
+            1.0f, 200.0f, this);
+    _camera->setRotationPoint(QVector3D(0.0f, 0.0f, 9.0f));
 
     _drawTimer = new QTimer(this);
     _drawTimer->start(10);
@@ -51,7 +54,7 @@ void Widget::initializeGL()
 
 void Widget::paintGL()
 {
-    qglClearColor(Qt::gray);
+    qglClearColor(Qt::black);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     _objectGroup->draw(_camera);
