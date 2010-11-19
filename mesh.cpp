@@ -44,8 +44,8 @@ void Mesh::draw(Camera *camera, QMatrix4x4 position)
             _normalData.constData());
     _shaderProgram->setAttributeArray("shininess", 
             _shininessData.constData(), 1);
-    _shaderProgram->setAttributeArray("specular", 
-            _specularData.constData(), 1);
+    _shaderProgram->setAttributeArray("specular", GL_UNSIGNED_BYTE,
+            (void *)_specularData.constData(), 4);
 
     _shaderProgram->enableAttributeArray("vertexPosition");
     _shaderProgram->enableAttributeArray("normal");
@@ -101,6 +101,7 @@ void Mesh::makeGeometry()
             aiProcess_SortByPType);
     const aiMesh *mesh;
     int numberOfVertices;
+    GLubyte specularData[] = {0, 0, 0, 0};
     aiVector3D *vertices;
     aiVector3D *normals;
 
@@ -130,8 +131,8 @@ void Mesh::makeGeometry()
                 QVector4D(vertices[i].x, vertices[i].y, vertices[i].z, 1.0f));
         _normalData.append(
                 QVector4D(normals[i].x, normals[i].y, normals[i].z, 0.0f));
-        _shininessData.append(1.0f);
-        _specularData.append(1.0f);
+        _shininessData.append(0.8f);
+        _specularData.append(specularData);
     }
     qDebug() << _vertexData;
 

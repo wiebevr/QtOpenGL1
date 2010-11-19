@@ -29,6 +29,17 @@ void ObjectGroup::addObject(Object *object)
     setFormation(CIRCLE);
 }
 
+void ObjectGroup::removeObject(Object *object)
+{
+    removeObject(_objects.indexOf(object));
+}
+
+void ObjectGroup::removeObject(int object)
+{
+    _objects[object]->deleteLater();
+    _objects.remove(object);
+}
+
 void ObjectGroup::goToNearest()
 {
     if (_rotationAnimation->state() == QAbstractAnimation::Stopped)
@@ -38,7 +49,6 @@ void ObjectGroup::goToNearest()
         index = qRound(((qreal)(getYRotation() * (qreal)_objects.size()) / 
                     360.0));
         goToObject(index);
-
     }
 }
 
@@ -125,7 +135,6 @@ void ObjectGroup::setFormation(int formation)
                     0.0f));
             }
             break;
-
     }
 }
 

@@ -31,7 +31,7 @@ class Mesh
         QVector<QVector4D> _vertexData;
         QVector<QVector4D> _normalData;
         QVector<GLfloat> _shininessData;
-        QVector<GLfloat> _specularData;
+        QVector<GLubyte *> _specularData;
 
         QGLShaderProgram *_shaderProgram;
         QString _meshFilename;

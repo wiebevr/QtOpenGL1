@@ -18,7 +18,8 @@ class ObjectGroup
         ObjectGroup(QObject *parent = 0);
         ~ObjectGroup();
         void addObject(Object *object);
-        bool removeObject(Object *object);
+        void removeObject(Object *object);
+        void removeObject(int object);
         void setFormation(int formation);
         void draw(Camera *camera, QMatrix4x4 position = QMatrix4x4());
         void makeResources();
