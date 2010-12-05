@@ -2,12 +2,5 @@
     <qresource prefix="/shaders">
         <file>shader.f.glsl</file>
         <file>shader.v.glsl</file>
-        <file>widget_plane.f.glsl</file>
-        <file>widget_plane.v.glsl</file>
-    </qresource>
-    <qresource prefix="/objects">
-        <file alias="simple_cube.obj">media/simple_cube.obj</file>
-        <file alias="monkey.obj">media/monkey.obj</file>
-        <file alias="smooth_monkey.obj">media/smooth_monkey.obj</file>
     </qresource>
 </RCC>

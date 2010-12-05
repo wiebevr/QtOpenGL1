@@ -1,22 +1,22 @@
-#version 110
+// Vertex Shader
 
-uniform mat4 projectionMatrix;
-uniform mat4 modelViewMatrix;
+uniform mediump mat4 projectionMatrix;
+uniform mediump mat4 modelViewMatrix;
 
-attribute vec4 vertexPosition;
-attribute vec4 normal;
-attribute vec2 texcoord;
-attribute float shininess;
-attribute vec4 specular;
+attribute highp vec4 vertexPosition;
+attribute highp vec4 normal;
+attribute mediump vec2 texcoord;
+attribute mediump float shininess;
+attribute mediump vec4 specular;
 
-varying vec3 fragmentPosition;
-varying vec3 fragmentNormal;
-varying float fragmentShininess;
-varying vec4 fragmentSpecular;
+varying mediump vec3 fragmentPosition;
+varying mediump vec3 fragmentNormal;
+varying mediump float fragmentShininess;
+varying mediump vec4 fragmentSpecular;
 
 void main()
 {
-    vec4 eyePosition = modelViewMatrix * vec4(vertexPosition.xyz, 1.0);
+    highp vec4 eyePosition = modelViewMatrix * vec4(vertexPosition.xyz, 1.0);
     gl_Position = projectionMatrix * eyePosition;
     
     fragmentPosition = eyePosition.xyz;
