@@ -8,8 +8,6 @@ Widget::Widget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
 {
     _cube = new Cube(this);
-    _mesh = new Mesh(this);    
-    _widgetPlane = new WidgetPlane(this);
     _displayPlane = new DisplayPlane(this);
     
     _objectGroup = new ObjectGroup(this);
@@ -18,8 +16,6 @@ Widget::Widget(QWidget *parent)
     {
         _objectGroup->addObject(new DisplayPlane(this));
     }
-    _objectGroup->addObject(new Mesh(this));
-    _objectGroup->addObject(new Mesh(QString("media/smooth_monkey.obj"), this));
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
             1.0f, 200.0f, this);
@@ -45,9 +41,6 @@ void Widget::initializeGL()
     glEnable(GL_TEXTURE_2D);
 
     _cube->makeResources();
-    _mesh->makeResources();
-    _widgetPlane->makeResources();
-    _displayPlane->makeResources();
     _objectGroup->makeResources();
     
 }

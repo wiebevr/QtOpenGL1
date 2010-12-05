@@ -3,8 +3,6 @@
 
 #include "cube.h"
 #include "camera.h"
-#include "mesh.h"
-#include "widget_plane.h"
 #include "display_plane.h"
 #include "object_group.h"
 
@@ -38,8 +36,6 @@ class Widget : public QGLWidget
 
     private:
         Cube *_cube;
-        Mesh *_mesh;
-        WidgetPlane *_widgetPlane;
         DisplayPlane *_displayPlane;
         ObjectGroup *_objectGroup;
 
