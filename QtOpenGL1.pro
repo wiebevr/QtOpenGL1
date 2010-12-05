@@ -6,9 +6,6 @@
 TEMPLATE = app
 TARGET = QtOpenGL1 
 DEPENDPATH += .
-INCLUDEPATH += .\
-               /usr/include/assimp
-LIBS += -lassimp -lm
 
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
