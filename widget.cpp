@@ -36,7 +36,7 @@ Widget::~Widget()
 void Widget::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_VERTEX_ARRAY);
+    //glEnable(GL_VERTEX_ARRAY);
     //glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
 
