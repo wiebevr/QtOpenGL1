@@ -17,9 +17,7 @@ QT += opengl core gui
 HEADERS += cube.h \ 
            widget.h \
            object.h \
-           mesh.h \
            camera.h \
-           widget_plane.h \
            display_plane.h \
            object_group.h
 
@@ -27,9 +25,7 @@ SOURCES += main.cpp \
            widget.cpp \
            object.cpp \
            cube.cpp \
-           mesh.cpp \
            camera.cpp \
-           widget_plane.cpp \
            display_plane.cpp \
            object_group.cpp
 
