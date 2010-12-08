@@ -16,7 +16,7 @@ class ObjectGroup
 
     public:
         ObjectGroup(QObject *parent = 0);
-        ~ObjectGroup();
+        virtual ~ObjectGroup();
         void addObject(Object *object);
         void removeObject(Object *object);
         void removeObject(int object);

@@ -2,7 +2,9 @@
 
 uniform mediump mat4 projectionMatrix;
 uniform mediump mat4 modelViewMatrix;
+uniform mediump sampler2D texture;
 
+varying highp vec2 texcoord;
 varying mediump vec3 fragmentPosition;
 varying mediump vec3 fragmentNormal;
 varying mediump float fragmentShininess;
@@ -26,7 +28,8 @@ void main()
     mediump vec4 ambientDiffuseFactor = diffuseFactor + lightAmbient;
     mediump vec4 specularFactor = max(pow(-dot(reflection, eye), fragmentShininess), 0.0) * lightSpecular;
     
-    gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * vec4(1.0, 1.0, 0.0, 0.0);
+    //gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * vec4(1.0, 1.0, 0.0, 0.0);
+    gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * texture2D(texture, texcoord);
 
 
     //gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);  

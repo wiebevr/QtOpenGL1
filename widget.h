@@ -11,6 +11,7 @@
 #include <QGLShaderProgram>
 #include <QMatrix4x4>
 #include <QMouseEvent>
+#include <QString>
 #include <QGraphicsView>
 
 class Widget : public QGLWidget
@@ -19,6 +20,7 @@ class Widget : public QGLWidget
     
     public:
         Widget(QWidget *parent = 0);
+        Widget(QString folder, QWidget *parent = 0);
         ~Widget();
     
     protected:

@@ -1,5 +1,6 @@
 #include "display_plane.h"
 #include <QDebug>
+#include <QGLPixelBuffer>
 
 DisplayPlane::DisplayPlane(QObject *parent)
     : Object(parent)
@@ -10,7 +11,21 @@ DisplayPlane::DisplayPlane(QObject *parent)
     connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
     _positionMatrix.setToIdentity();
+}
 
+DisplayPlane::DisplayPlane(QString texture, QObject *parent)
+    : Object(parent)
+{
+    _texture = texture;
+    _size = QImage(texture).size();
+
+    // Timer:
+    _timer = new QTimer(this);
+    _timer->start(10);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+
+    _positionMatrix.setToIdentity();
+    qDebug() << _size;
 }
 
 DisplayPlane::~DisplayPlane()
@@ -26,11 +41,14 @@ void DisplayPlane::makeResources()
 {
     makeGeometry();
     makeShaders();
+    makeTexture();
 }
 
 void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
 {
     _shaderProgram->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
 
     _shaderProgram->setUniformValue(
             "projectionMatrix", 
@@ -38,6 +56,7 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
             camera->getModelViewMatrix() * position * _positionMatrix);
+    _shaderProgram->setUniformValue("texture", 0);
 
     _shaderProgram->setAttributeArray("vertexPosition", 
             _vertexData.constData());
@@ -114,6 +133,17 @@ void DisplayPlane::makeShaders()
     _shaderProgram->addShader(vertexShader);
 
     _shaderProgram->link();
+}
+
+void DisplayPlane::makeTexture()
+{
+    QImage image(_texture);
+    QGLPixelBuffer pixelBuffer(image.size());
+
+    _textureId = pixelBuffer.bindTexture(image);
+    setScale(QVector3D(
+            (qreal)image.size().width() / (qreal)image.size().height(), 
+            1.0, 1.0));
 }
 
 void DisplayPlane::makeGeometry()

@@ -9,6 +9,8 @@
 #include <QVector3D>
 #include <QVector4D>
 #include <QVector>
+#include <QImage>
+#include <QSize>
 #include "object.h"
 
 class DisplayPlane
@@ -18,6 +20,7 @@ class DisplayPlane
 
     public:
         DisplayPlane(QObject *parent = 0);
+        DisplayPlane(QString texture, QObject *parent = 0);
         ~DisplayPlane();
         void makeResources();
         void draw(Camera *shaderProgram, QMatrix4x4 position = QMatrix4x4());
@@ -37,8 +40,13 @@ class DisplayPlane
         QVector<GLfloat> _shininessData;
         QVector<GLfloat> _specularData;
 
+        GLuint _textureId;
+        QString _texture;
+        QSize _size;
+
         void makeGeometry();
         void makeShaders();
+        void makeTexture();
 };
 
 #endif // DISPLAY_PLANE_H

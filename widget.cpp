@@ -1,21 +1,15 @@
 #include "widget.h"
+#include "picture_folder_group.h"
+
 #include <QMatrix4x4>
 #include <QString>
 
 #define NUMBER_OF_OBJECTS 5
 
-Widget::Widget(QWidget *parent)
+Widget::Widget(QString folder, QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
 {
-    _cube = new Cube(this);
-    _displayPlane = new DisplayPlane(this);
-    
-    _objectGroup = new ObjectGroup(this);
-    
-    for(int i = 0; i < NUMBER_OF_OBJECTS; ++i)
-    {
-        _objectGroup->addObject(new DisplayPlane(this));
-    }
+    _objectGroup = new PictureFolderGroup(folder, this);
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
             1.0f, 200.0f, this);
@@ -38,7 +32,6 @@ void Widget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
 
-    _cube->makeResources();
     _objectGroup->makeResources();
     
 }

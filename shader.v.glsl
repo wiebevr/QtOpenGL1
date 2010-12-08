@@ -5,10 +5,10 @@ uniform mediump mat4 modelViewMatrix;
 
 attribute highp vec4 vertexPosition;
 attribute highp vec4 normal;
-attribute mediump vec2 texcoord;
 attribute mediump float shininess;
 attribute mediump vec4 specular;
 
+varying highp vec2 texcoord;
 varying mediump vec3 fragmentPosition;
 varying mediump vec3 fragmentNormal;
 varying mediump float fragmentShininess;
@@ -23,4 +23,6 @@ void main()
     fragmentNormal = (modelViewMatrix * vec4(normal.xyz, 0.0)).xyz;
     fragmentShininess = shininess;
     fragmentSpecular = specular;
+
+    texcoord = vec2(vertexPosition.x, vertexPosition.y) * vec2(0.5) + vec2(0.5);
 }

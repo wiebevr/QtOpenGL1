@@ -19,7 +19,8 @@ HEADERS += cube.h \
            object.h \
            camera.h \
            display_plane.h \
-           object_group.h
+           object_group.h \
+           picture_folder_group.h
 
 SOURCES += main.cpp \
            widget.cpp \
@@ -27,7 +28,8 @@ SOURCES += main.cpp \
            cube.cpp \
            camera.cpp \
            display_plane.cpp \
-           object_group.cpp
+           object_group.cpp \
+           picture_folder_group.cpp
 
 RESOURCES += \
     resources.qrc
