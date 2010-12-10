@@ -11,7 +11,6 @@ Widget::Widget(QString folder, QWidget *parent)
     : QGLWidget(parent)
 {
     _objectGroup = new PictureFolderGroup(folder, this);
-    setWindowState(Qt::WindowFullScreen);
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
             1.0f, 200.0f, this);
@@ -35,6 +34,7 @@ void Widget::initializeGL()
     glEnable(GL_TEXTURE_2D);
 
     _objectGroup->makeResources();
+    qDebug() << "end initializeGL\n";
     
 }
 
