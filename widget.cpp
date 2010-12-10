@@ -7,7 +7,8 @@
 #define NUMBER_OF_OBJECTS 5
 
 Widget::Widget(QString folder, QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
+    //: QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
+    : QGLWidget(parent)
 {
     _objectGroup = new PictureFolderGroup(folder, this);
     setWindowState(Qt::WindowFullScreen);
