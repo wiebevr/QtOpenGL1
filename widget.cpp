@@ -10,6 +10,7 @@ Widget::Widget(QString folder, QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
 {
     _objectGroup = new PictureFolderGroup(folder, this);
+    setWindowState(Qt::WindowFullScreen);
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
             1.0f, 200.0f, this);
