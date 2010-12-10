@@ -21,6 +21,7 @@ Widget::Widget(QString folder, QWidget *parent)
     connect(_drawTimer, SIGNAL(timeout()), this, SLOT(updateGL()));
 
     isDragging = false;
+    qglClearColor(Qt::black);
 
 }
 
@@ -31,8 +32,9 @@ Widget::~Widget()
 void Widget::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
+#if 0
     glEnable(GL_TEXTURE_2D);
-
+#endif
     _objectGroup->makeResources();
     qDebug() << "end initializeGL\n";
     
@@ -40,7 +42,6 @@ void Widget::initializeGL()
 
 void Widget::paintGL()
 {
-    qglClearColor(Qt::black);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     _objectGroup->draw(_camera);
