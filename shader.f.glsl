@@ -1,4 +1,5 @@
 // Fragment Shader
+#version 100
 
 uniform mediump mat4 projectionMatrix;
 uniform mediump mat4 modelViewMatrix;
