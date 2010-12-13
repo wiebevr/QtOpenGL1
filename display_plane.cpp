@@ -136,14 +136,22 @@ void DisplayPlane::makeShaders()
 
 void DisplayPlane::makeTexture()
 {
-    QImage image(_texture);
+    QImage image(QGLWidget::convertToGLFormat(QImage(_texture)));
 
     glGenTextures(1, &_textureId);
     glBindTexture(GL_TEXTURE_2D, _textureId);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
     glTexImage2D(GL_TEXTURE_2D, 0,
             GL_RGBA, image.width(), image.height(),
             0, GL_RGBA, GL_UNSIGNED_BYTE, (void *)image.constBits());
+    setScale(QVector3D(
+            (qreal)image.size().width() / (qreal)image.size().height(),
+            1.0, 1.0));
 }
 
 void DisplayPlane::makeGeometry()
