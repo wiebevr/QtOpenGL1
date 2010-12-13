@@ -10,6 +10,7 @@ Widget::Widget(QString folder, QWidget *parent)
     //: QGLWidget(QGLFormat(QGL::SampleBuffers | QGL::DepthBuffer), parent)
     : QGLWidget(parent)
 {
+    setFocusPolicy(Qt::StrongFocus);
     _objectGroup = new PictureFolderGroup(folder, this);
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
