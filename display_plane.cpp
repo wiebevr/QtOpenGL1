@@ -1,6 +1,5 @@
 #include "display_plane.h"
 #include <QDebug>
-#include <QGLPixelBuffer>
 
 DisplayPlane::DisplayPlane(QObject *parent)
     : Object(parent)
@@ -138,12 +137,13 @@ void DisplayPlane::makeShaders()
 void DisplayPlane::makeTexture()
 {
     QImage image(_texture);
-    QGLPixelBuffer pixelBuffer(image.size());
 
-    _textureId = pixelBuffer.bindTexture(image);
-    setScale(QVector3D(
-            (qreal)image.size().width() / (qreal)image.size().height(), 
-            1.0, 1.0));
+    glGenTextures(1, &_textureId);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
+
+    glTexImage2D(GL_TEXTURE_2D, 0,
+            GL_RGBA, image.width(), image.height(),
+            0, GL_RGBA, GL_UNSIGNED_BYTE, (void *)image.constBits());
 }
 
 void DisplayPlane::makeGeometry()
