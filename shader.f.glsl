@@ -30,8 +30,8 @@ void main()
     vec4 specularFactor = max(pow(-dot(reflection, eye), fragmentShininess), 0.0) * lightSpecular;
     
     //gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * vec4(1.0, 1.0, 0.0, 0.0);
-    //gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * texture2D(texture, texcoord);
+    gl_FragColor = specularFactor  * fragmentSpecular + ambientDiffuseFactor * texture2D(texture, texcoord);
 
 
-    gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);  
+    //gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);  
 }
