@@ -38,6 +38,7 @@ void DisplayPlane::timeout()
 
 void DisplayPlane::makeResources()
 {
+    QGLConext::currentContext()->makeCurrent();
     makeGeometry();
     makeShaders();
 }
