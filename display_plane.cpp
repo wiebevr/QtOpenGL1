@@ -39,8 +39,8 @@ void DisplayPlane::timeout()
 void DisplayPlane::makeResources()
 {
     makeGeometry();
-    makeShaders();
     makeTexture();
+    makeShaders();
 }
 
 void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
