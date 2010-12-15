@@ -11,6 +11,10 @@ Widget::Widget(QString folder, QWidget *parent)
     : QGLWidget(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setAutoBufferSwap(false);
+
     _objectGroup = new PictureFolderGroup(folder, this);
 
     _camera = new Camera(60.0f, (double)width() / (double)height(),
@@ -23,7 +27,6 @@ Widget::Widget(QString folder, QWidget *parent)
 
     isDragging = false;
     qglClearColor(Qt::black);
-
 }
 
 Widget::~Widget()
