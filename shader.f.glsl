@@ -1,5 +1,5 @@
 #version 100
-/* precision mediump float; */
+precision mediump float;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
