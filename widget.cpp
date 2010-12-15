@@ -26,7 +26,7 @@ Widget::Widget(QString folder, QWidget *parent)
     connect(_drawTimer, SIGNAL(timeout()), this, SLOT(updateGL()));
 
     isDragging = false;
-    qglClearColor(Qt::black);
+
 }
 
 Widget::~Widget()
@@ -35,6 +35,7 @@ Widget::~Widget()
 
 void Widget::initializeGL()
 {
+    qglClearColor(Qt::Red);
     glEnable(GL_DEPTH_TEST);
 #if 0
     glEnable(GL_TEXTURE_2D);
