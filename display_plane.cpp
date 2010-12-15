@@ -39,7 +39,7 @@ void DisplayPlane::timeout()
 void DisplayPlane::makeResources()
 {
     makeGeometry();
-    //makeTexture();
+    makeTexture();
     makeShaders();
 }
 
@@ -47,7 +47,7 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
 {
     _shaderProgram->bind();
     glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, _textureId);
+    glBindTexture(GL_TEXTURE_2D, _textureId);
 
     _shaderProgram->setUniformValue(
             "projectionMatrix", 
@@ -55,7 +55,7 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
     _shaderProgram->setUniformValue(
             "modelViewMatrix", 
             camera->getModelViewMatrix() * position * _positionMatrix);
-    //_shaderProgram->setUniformValue("texture", 0);
+    _shaderProgram->setUniformValue("texture", 0);
 
     _shaderProgram->setAttributeArray("vertexPosition", 
             _vertexData.constData());
