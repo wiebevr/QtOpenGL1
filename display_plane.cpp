@@ -93,6 +93,8 @@ void DisplayPlane::makeShaders()
 
     QGLShader *vertexShader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fragmentShader = new QGLShader(QGLShader::Fragment, this);
+
+    qDebug() << "Sharder object made";
     
     vertexShader->compileSourceFile(":/shaders/shader.v.glsl");
     fragmentShader->compileSourceFile(":/shaders/shader.f.glsl");
