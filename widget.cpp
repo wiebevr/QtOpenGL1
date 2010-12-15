@@ -39,6 +39,7 @@ void Widget::initializeGL()
 #if 0
     glEnable(GL_TEXTURE_2D);
 #endif
+    glCreateShader(GL_VERTEX_SHADER);
     _objectGroup->makeResources();
     qDebug() << "end initializeGL\n";
     
