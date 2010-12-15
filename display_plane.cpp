@@ -38,7 +38,6 @@ void DisplayPlane::timeout()
 
 void DisplayPlane::makeResources()
 {
-    QGLConext::currentContext()->makeCurrent();
     makeGeometry();
     makeShaders();
 }
@@ -90,7 +89,6 @@ void DisplayPlane::draw(Camera *camera, QMatrix4x4 position)
 
 void DisplayPlane::makeShaders()
 {
-    _shaderProgram = new QGLShaderProgram(this); 
 
     QGLShader *vertexShader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fragmentShader = new QGLShader(QGLShader::Fragment, this);
@@ -114,6 +112,7 @@ void DisplayPlane::makeShaders()
             << "Could not compile fragment shader:\n" 
             <<  fragmentShader->log();
     }
+    _shaderProgram = new QGLShaderProgram(this); 
 
     _shaderProgram->addShader(fragmentShader);
     _shaderProgram->addShader(vertexShader);

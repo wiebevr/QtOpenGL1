@@ -24,7 +24,6 @@ Widget::Widget(QString folder, QWidget *parent)
     _drawTimer = new QTimer(this);
     _drawTimer->start(10);
     connect(_drawTimer, SIGNAL(timeout()), this, SLOT(updateGL()));
-    makeCurrent();
 
     isDragging = false;
     qglClearColor(Qt::black);
@@ -55,6 +54,7 @@ void Widget::paintGL()
     //_widgetPlane->draw(_camera);
     //_displayPlane->draw(_camera);
     //_cube->draw(_camera);
+    swapBuffers();
 }
 
 void Widget::resizeGL(int width, int height)
